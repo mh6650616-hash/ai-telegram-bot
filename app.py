@@ -7,11 +7,7 @@ import time
 import threading
 import requests
 import os
-from datetime import datetime
-import pytz
-
-bd = pytz.timezone("Asia/Dhaka")
-time = datetime.now(bd)
+from datetime import datetime, timedelta, timezone
 
 import numpy as np
 import pandas as pd
@@ -35,8 +31,8 @@ LOSSES = 0
 
 LAST_SIGNAL = {}
 
-TELEGRAM_TOKEN = "8732000370:AAHjp7EDsN6RRwKVDRe3uYAq9YYpBT9OaTk"
-TELEGRAM_CHAT_ID = "5698962657"
+TELEGRAM_TOKEN = "TELEGRAM_TOKEN"
+TELEGRAM_CHAT_ID = "TELEGRAM_CHAT_ID"
 
 SIM_BALANCE = 1000
 
@@ -74,6 +70,11 @@ def download_dataset(pair):
 
     try:
         df = yf.download(pair, period="30d", interval="5m", progress=False)
+        
+        # FIX: yfinance multi-index column fix
+        if isinstance(df.columns, pd.MultiIndex):
+            df.columns = df.columns.get_level_values(0)
+            
     except:
         return None
 
@@ -217,6 +218,9 @@ def simulate_trade(signal):
 def signal_loop():
 
     global LAST_SIGNAL,WINS,LOSSES
+    
+    # Bangladesh Time Zone setup (UTC +6)
+    bd_tz = timezone(timedelta(hours=6))
 
     while True:
 
@@ -232,7 +236,8 @@ def signal_loop():
                 time.sleep(20)
                 continue
 
-            now = datetime.now()
+            # Fetching current time with BD Timezone
+            now = datetime.now(bd_tz)
 
             expiry = now + timedelta(minutes=1)
 
@@ -373,6 +378,10 @@ def chart():
 
     df = yf.download(pair, period="1d", interval="5m", progress=False)
 
+    # FIX: yfinance multi-index column fix
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.get_level_values(0)
+
     return jsonify({
 
     "time":df.index.astype(str).tolist(),
@@ -396,3 +405,4 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT",5000))
 
     app.run(host="0.0.0.0",port=port)
+    
