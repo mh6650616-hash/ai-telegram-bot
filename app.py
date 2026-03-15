@@ -7,7 +7,11 @@ import time
 import threading
 import requests
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
+import pytz
+
+bd = pytz.timezone("Asia/Dhaka")
+time = datetime.now(bd)
 
 import numpy as np
 import pandas as pd
