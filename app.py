@@ -50,7 +50,7 @@ AI_MODEL = None
 
 def telegram_send(msg):
 
-    url = f"https://api.telegram.org/bot{8732000370:AAHjp7EDsN6RRwKVDRe3uYAq9YYpBT9OaTk}/sendMessage"
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
 
     data = {
         "chat_id": TELEGRAM_CHAT_ID,
