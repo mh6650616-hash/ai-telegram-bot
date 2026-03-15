@@ -31,8 +31,8 @@ LOSSES = 0
 
 LAST_SIGNAL = {}
 
-TELEGRAM_TOKEN = "TELEGRAM_TOKEN"
-TELEGRAM_CHAT_ID = "TELEGRAM_CHAT_ID"
+TELEGRAM_TOKEN = "8732000370:AAHjp7EDsN6RRwKVDRe3uYAq9YYpBT9OaTk"
+TELEGRAM_CHAT_ID = "5698962657"
 
 SIM_BALANCE = 1000
 
@@ -50,7 +50,7 @@ AI_MODEL = None
 
 def telegram_send(msg):
 
-    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    url = f"https://api.telegram.org/bot{8732000370:AAHjp7EDsN6RRwKVDRe3uYAq9YYpBT9OaTk}/sendMessage"
 
     data = {
         "chat_id": TELEGRAM_CHAT_ID,
